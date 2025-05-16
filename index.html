@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATPV 500 - Torneio de Tênis</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #001F3F;
+            --secondary: #0047AB;
+            --accent: #26D07C;
+            --accent-alt: #FFD700;
+            --text: #FFFFFF;
+            --text-secondary: #B0B0B0;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--primary);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        .accent-text {
+            color: var(--accent);
+            font-weight: bold;
+        }
+        
+        .tennis-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-bottom: 4px solid var(--accent);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        
+        .hero-section {
+            background: radial-gradient(ellipse at center, rgba(0,71,171,0.4) 0%, rgba(0,31,63,0.8) 100%), url('https://images.unsplash.com/photo-1560012057-4372e14c5085?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080') center/cover no-repeat;
+            min-height: 60vh;
+            position: relative;
+            overflow: hidden;
+            padding: 6rem 0;
+        }
+        
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,31,63,0.7);
+            z-index: 1;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero-tagline {
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .countdown-container {
+            background: rgba(0,31,63,0.8);
+            border: 2px solid var(--accent);
+            border-radius: 8px;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .countdown-box {
+            background: linear-gradient(135deg, #002651 0%, #003B7A 100%);
+            border-radius: 8px;
+            box-shadow: inset 0 2px 4px rgba(255,255,255,0.1), 0 4px 8px rgba(0,0,0,0.2);
+            width: 80px;
+            height: 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        @media (min-width: 640px) {
+            .countdown-box {
+                width: 100px;
+                height: 100px;
+            }
+        }
+        
+        .countdown-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+        }
+        
+        .countdown-box::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+        }
+        
+        .countdown-title {
+            text-transform: uppercase;
+            color: var(--accent);
+            font-weight: 700;
+            letter-spacing: 2px;
+            font-size: 0.85rem;
+        }
+        
+        .section-title {
+            position: relative;
+            font-weight: 900;
+            margin-bottom: 2rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: inline-block;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60%;
+            height: 4px;
+            background: var(--accent-alt);
+            border-radius: 2px;
+        }
+        
+        .match-card {
+            background: linear-gradient(135deg, rgba(0,47,85,0.9) 0%, rgba(0,31,63,0.9) 100%);
+            border-left: 4px solid var(--accent);
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .match-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            border-left-color: var(--accent-alt);
+        }
+        
+        .phase-title {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+        
+        .phase-title::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: -100px;
+            width: 80px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent), transparent);
+        }
+        
+        .btn {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.7s ease;
+        }
+        
+        .btn:hover::before {
+            left: 100%;
+        }
+        
+        .divider {
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            margin: 3rem 0;
+            border-radius: 3px;
+        }
+        
+        .player-vs {
+            position: relative;
+            font-weight: 800;
+            color: var(--accent-alt);
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+        }
+        
+        footer {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border-top: 4px solid var(--accent);
+        }
+        
+        .points-table th,
+        .points-table td {
+            padding: 0.75rem;
+            text-align: center;
+        }
+        
+        .points-table thead {
+            background: var(--secondary);
+            color: var(--text);
+        }
+        
+        .points-table tbody tr {
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            transition: background-color 0.3s ease;
+        }
+        
+        .points-table tbody tr:hover {
+            background-color: rgba(255,255,255,0.05);
+        }
+        
+        .points-table .position {
+            color: var(--accent-alt);
+            font-weight: bold;
+        }
+        
+        .points-table .points {
+            color: var(--accent);
+            font-weight: bold;
+        }
+        
+        /* Animations */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .animate-pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 1s forwards;
+        }
+        
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-400 { animation-delay: 0.4s; }
+        
+        .bye-tag {
+            background: var(--accent);
+            color: var(--primary);
+            padding: 1px 6px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            margin-left: 5px;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="tennis-header py-4 sticky top-0 z-50">
+        <div class="container flex items-center justify-between">
+            <div class="flex items-center">
+                <span class="text-3xl md:text-4xl font-black">
+                    <span class="text-white">ATP</span><span class="text-accent">V</span> <span class="text-accent-alt">500</span>
+                </span>
+            </div>
+            <div class="hidden md:flex space-x-6">
+                <a href="#inicio" class="text-white hover:text-accent transition">Início</a>
+                <a href="#cronograma" class="text-white hover:text-accent transition">Cronograma</a>
+                <a href="#pontuacao" class="text-white hover:text-accent transition">Pontuação</a>
+                <a href="#organizacao" class="text-white hover:text-accent transition">Organização</a>
+            </div>
+            <div class="md:hidden">
+                <button class="text-white text-2xl">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="hero-section flex items-center">
+        <div class="container hero-content">
+            <div class="max-w-3xl mx-auto text-center fade-in">
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4 hero-tagline">
+                    <span class="text-white">Sua paixão pelo tênis merece um</span> 
+                    <span class="text-accent-alt">palco à altura</span>
+                </h1>
+                <p class="text-lg md:text-xl text-text-secondary mb-8 fade-in delay-200">
+                    Bem-vindo ao ATPV 500, onde cada saque é decisivo e cada devolução pode mudar sua história!
+                </p>
+                <p class="text-xl md:text-2xl mb-8 fade-in delay-300">
+                    Este não é apenas um torneio, é sua chance de provar que você 
+                    <span class="text-accent">nasceu para as quadras</span>. 
+                    A bola está na sua mão, a vitória está no seu horizonte!
+                </p>
+                <div class="mt-6 mb-10 fade-in delay-400">
+                    <p class="uppercase text-2xl md:text-3xl font-bold tracking-wider">
+                        <span class="block mb-1">Cada ponto é uma batalha.</span>
+                        <span class="block mb-1">Cada jogo é uma guerra.</span>
+                        <span class="block text-accent-alt animate-pulse">Você tem o que é preciso?</span>
+                    </p>
+                </div>
+            </div>
+
+            <div class="mt-10">
+                <h2 class="text-2xl md:text-3xl font-bold text-center mb-4 text-accent">O DESAFIO COMEÇA EM</h2>
+                <div class="countdown-container">
+                    <div class="flex justify-center space-x-4">
+                        <div class="countdown-box">
+                            <span id="days" class="text-3xl md:text-4xl font-bold">00</span>
+                            <span class="countdown-title">Dias</span>
+                        </div>
+                        <div class="countdown-box">
+                            <span id="hours" class="text-3xl md:text-4xl font-bold">00</span>
+                            <span class="countdown-title">Horas</span>
+                        </div>
+                        <div class="countdown-box">
+                            <span id="minutes" class="text-3xl md:text-4xl font-bold">00</span>
+                            <span class="countdown-title">Minutos</span>
+                        </div>
+                        <div class="countdown-box">
+                            <span id="seconds" class="text-3xl md:text-4xl font-bold">00</span>
+                            <span class="countdown-title">Segundos</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center mt-8">
+                    <a href="#cronograma" class="btn bg-accent hover:bg-green-500 text-primary font-bold py-3 px-8 rounded-lg inline-block transition-all duration-300 text-lg">
+                        Ver Cronograma
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <div class="divider"></div>
+
+    <!-- Tournament Schedule -->
+    <section id="cronograma" class="py-16">
+        <div class="container">
+            <h2 class="section-title text-3xl md:text-4xl mb-12 text-center mx-auto">Cronograma da Batalha</h2>
+            
+            <div class="mb-20">
+                <div class="bg-secondary bg-opacity-20 p-6 md:p-10 rounded-lg border-l-4 border-accent-alt">
+                    <h3 class="phase-title text-2xl md:text-3xl font-bold mb-6 text-accent">
+                        FASE PRELIMINAR
+                    </h3>
+                    <p class="mb-6 text-lg">
+                        16/05/2025 a 19/05/2025 
+                        <span class="text-accent-alt italic">(4 dias para a primeira batalha)</span>
+                    </p>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="match-card p-6">
+                            <h4 class="text-xl font-semibold mb-4">Jogo Preliminar 1:</h4>
+                            <div class="flex flex-col md:flex-row justify-between items-center">
+                                <span class="text-lg md:text-xl font-bold">Lucas</span>
+                                <span class="player-vs my-2 md:my-0">VS</span>
+                                <span class="text-lg md:text-xl font-bold">Josias</span>
+                            </div>
+                            <p class="text-text-secondary mt-4">Até 19/05/2025</p>
+                        </div>
+                        
+                        <div class="match-card p-6">
+                            <h4 class="text-xl font-semibold mb-4">Jogo Preliminar 2:</h4>
+                            <div class="flex flex-col md:flex-row justify-between items-center">
+                                <span class="text-lg md:text-xl font-bold">Kevin Klaws</span>
+                                <span class="player-vs my-2 md:my-0">VS</span>
+                                <span class="text-lg md:text-xl font-bold">Raul Rodrigues</span>
+                            </div>
+                            <p class="text-text-secondary mt-4">Até 19/05/2025</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mb-20">
+                <div class="bg-secondary bg-opacity-20 p-6 md:p-10 rounded-lg border-l-4 border-accent">
+                    <h3 class="phase-title text-2xl md:text-3xl font-bold mb-6 text-accent-alt">
+                        QUARTAS DE FINAL
+                    </h3>
+                    <p class="mb-6 text-lg">
+                        20/05/2025 a 25/05/2025 
+                        <span class="text-accent-alt italic">(6 dias para provar seu valor)</span>
+                    </p>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="match-card p-6">
+                            <h4 class="text-xl font-semibold mb-4">Quarta de Final 1:</h4>
+                            <div class="flex flex-col md:flex-row justify-between items-center">
+                                <span class="text-lg md:text-xl font-bold">Gui<span class="bye-tag">BYE</span></span>
+                                <span class="player-vs my-2 md:my-0">VS</span>
+                                <span class="text-lg md:text-xl font-bold">Vencedor Preliminar 1</span>
+                            </div>
+                            <p class="text-text-secondary mt-4">Até 25/05/2025</p>
+                        </div>
+                        
+                        <div class="match-card p-6">
+                            <h4 class="text-xl font-semibold mb-4">Quarta de Final 2:</h4>
+                            <div class="flex flex-col md:flex-row justify-between items-center">
+                                <span class="text-lg md:text-xl font-bold">Raoni<span class="bye-tag">BYE</span></span>
+                                <span class="player-vs my-2 md:my-0">VS</span>
+                                <span class="text-lg md:text-xl font-bold">Leoni Braga<span class="bye-tag">BYE</span></span>
+                            </div>
+                            <p class="text-text-secondary mt-4">Até 25/05/2025</p>
+                        </div>
+                        
+                        <div class="match-card p-6">
+                            <h4 class="text-xl font-semibold mb-4">Quarta de Final 3:</h4>
+                            <div class="flex flex-col md:flex-row justify-between items-center">
+                                <span class="text-lg md:text-xl font-bold">Léo C<span class="bye-tag">BYE</span></span>
+                                <span class="player-vs my-2 md:my-0">VS</span>
+                                <span class="text-lg md:text-xl font-bold">Matheus</span>
+                            </div>
+                            <p class="text-text-secondary mt-4">Até 25/05/2025</p>
+                        </div>
+                        
+                        <div class="match-card p-6">
+                            <h4 class="text-xl font-semibold mb-4">Quarta de Final 4:</h4>
+                            <div class="flex flex-col md:flex-row justify-between items-center">
+                                <span class="text-lg md:text-xl font-bold">Vitor Leoni<span class="bye-tag">BYE</span></span>
+                                <span class="player-vs my-2 md:my-0">VS</span>
+                                <span class="text-lg md:text-xl font-bold">Vencedor Preliminar 1<span class="bye-tag">BYE</span></span>
+                            </div>
+                            <p class="text-text-secondary mt-4">Até 25/05/2025</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mb-20">
+                <div class="bg-secondary bg-opacity-20 p-6 md:p-10 rounded-lg border-l-4 border-accent-alt">
+                    <h3 class="phase-title text-2xl md:text-3xl font-bold mb-6 text-accent">
+                        SEMIFINAIS
+                    </h3>
+                    <p class="mb-6 text-lg">
+                        26/05/2025 a 01/06/2025 
+                        <span class="text-accent-alt italic">(7 dias de glória ou decepção)</span>
+                    </p>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="match-card p-6">
+                            <h4 class="text-xl font-semibold mb-4">Semifinal 1:</h4>
+                            <div class="flex flex-col md:flex-row justify-between items-center">
+                                <span class="text-lg md:text-xl font-bold">Vencedor Quarta 1</span>
+                                <span class="player-vs my-2 md:my-0">VS</span>
+                                <span class="text-lg md:text-xl font-bold">Vencedor Quarta 2</span>
+                            </div>
+                            <p class="text-text-secondary mt-4">Até 01/06/2025</p>
+                        </div>
+                        
+                        <div class="match-card p-6">
+                            <h4 class="text-xl font-semibold mb-4">Semifinal 2:</h4>
+                            <div class="flex flex-col md:flex-row justify-between items-center">
+                                <span class="text-lg md:text-xl font-bold">Vencedor Quarta 3</span>
+                                <span class="player-vs my-2 md:my-0">VS</span>
+                                <span class="text-lg md:text-xl font-bold">Vencedor Quarta 4</span>
+                            </div>
+                            <p class="text-text-secondary mt-4">Até 01/06/2025</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mb-20">
+                <div class="bg-secondary bg-opacity-20 p-6 md:p-10 rounded-lg border-l-4 border-accent">
+                    <h3 class="phase-title text-2xl md:text-3xl font-bold mb-6 text-accent-alt">
+                        DISPUTA DE 3º LUGAR (opicional)
+                    </h3>
+                    <p class="mb-6 text-lg">
+                        06/06/2025 
+                        <span class="text-accent-alt italic">(A honra também está em jogo)</span>
+                    </p>
+                    
+                    <div class="match-card p-6 max-w-lg mx-auto">
+                        <h4 class="text-xl font-semibold mb-4">Disputa 3º Lugar:</h4>
+                        <div class="flex flex-col md:flex-row justify-between items-center">
+                            <span class="text-lg md:text-xl font-bold">Perdedor Semifinal 1</span>
+                            <span class="player-vs my-2 md:my-0">VS</span>
+                            <span class="text-lg md:text-xl font-bold">Perdedor Semifinal 2</span>
+                        </div>
+                        <p class="text-text-secondary mt-4">06/06/2025 - 10:00h</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div>
+                <div class="bg-secondary bg-opacity-20 p-6 md:p-10 rounded-lg border-l-4 border-accent">
+                    <h3 class="phase-title text-2xl md:text-3xl font-bold mb-6 text-accent-alt">
+                        GRANDE FINAL
+                    </h3>
+                    <p class="mb-6 text-lg">
+                        07/06/2025 
+                        <span class="text-accent-alt italic">(O dia da consagração)</span>
+                    </p>
+                    
+                    <div class="match-card p-6 max-w-lg mx-auto">
+                        <h4 class="text-xl font-semibold mb-4">Grande Final:</h4>
+                        <div class="flex flex-col md:flex-row justify-between items-center">
+                            <span class="text-lg md:text-xl font-bold">Vencedor Semifinal 1</span>
+                            <span class="player-vs my-2 md:my-0">VS</span>
+                            <span class="text-lg md:text-xl font-bold">Vencedor Semifinal 2</span>
+                        </div>
+                        <p class="text-text-secondary mt-4">07/06/2025 - 15:00h</p>
+                        <p class="text-center mt-8">
+                            <span class="bg-accent-alt text-primary py-2 px-4 rounded-full font-bold inline-block">
+                                TROFÉU ATPV 500
+                            </span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <div class="divider"></div>
+    
+    <!-- Pontuação Section -->
+    <section id="pontuacao" class="py-16">
+        <div class="container">
+            <h2 class="section-title text-3xl md:text-4xl mb-12 text-center mx-auto">Pontuação do Torneio</h2>
+            
+            <div class="bg-secondary bg-opacity-20 p-6 md:p-10 rounded-lg max-w-2xl mx-auto">
+                <div class="overflow-x-auto">
+                    <table class="points-table w-full">
+                        <thead>
+                            <tr>
+                                <th>Posição</th>
+                                <th>Pontos</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="position">1º Lugar</td>
+                                <td class="points">500</td>
+                            </tr>
+                            <tr>
+                                <td class="position">2º Lugar</td>
+                                <td class="points">300</td>
+                            </tr>
+                            <tr>
+                                <td class="position">3º Lugar</td>
+                                <td class="points">200</td>
+                            </tr>
+                            <tr>
+                                <td class="position">4º Lugar</td>
+                                <td class="points">200</td>
+                            </tr>
+                            <tr>
+                                <td class="position">5º Lugar</td>
+                                <td class="points">100</td>
+                            </tr>
+                            <tr>
+                                <td class="position">6º Lugar</td>
+                                <td class="points">100</td>
+                            </tr>
+                            <tr>
+                                <td class="position">7º Lugar</td>
+                                <td class="points">100</td>
+                            </tr>
+                            <tr>
+                                <td class="position">8º Lugar</td>
+                                <td class="points">100</td>
+                            </tr>
+                            <tr>
+                                <td class="position">9º Lugar</td>
+                                <td class="points">50</td>
+                            </tr>
+                            <tr>
+                                <td class="position">10º Lugar</td>
+                                <td class="points">50</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="mt-8">
+                    <h4 class="text-xl font-semibold text-accent">Participantes</h4>
+                    <ul class="mt-4 grid grid-cols-2 gap-2">
+                        <li>1. Vitor Leoni</li>
+                        <li>2. Raul Rodrigues</li>
+                        <li>3. Léo C</li>
+                        <li>4. Kevin Klaws</li>
+                        <li>5. Gui (defendendo pontos)</li>
+                        <li>6. Leoni Braga</li>
+                        <li>7. Josias</li>
+                        <li>8. Raoni</li>
+                        <li>9. Matheus</li>
+                        <li>10. Lucas</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function updateCountdown() {
+        const targetDate = new Date('2025-05-16T00:00:00');
+        const now = new Date();
+        const difference = targetDate.getTime() - now.getTime();
+        
+        if (difference <= 0) {
+            document.getElementById('days').textContent = '00';
+            document.getElementById('hours').textContent = '00';
+            document.getElementById('minutes').textContent = '00';
+            document.getElementById('seconds').textContent = '00';
+            clearInterval(intervalId);
+            return;
+        }
+        
+        const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+        
+        document.getElementById('days').textContent = String(days).padStart(2, '0');
+        document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+        document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+        document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+        }
+        
+        const intervalId = setInterval(updateCountdown, 1000);
+        updateCountdown(); // Para exibir os valores iniciais imediatamente
+</script>
+
+    <div class="divider"></div>
+    
+    <!-- Organização -->
+    <section id="organizacao" class="py-16">
+        <div class="container">
+            <h2 class="section-title text-3xl md:text-4xl mb-12 text-center mx-auto">Organização</h2>
+            
+            <div class="bg-secondary bg-opacity-20 p-6 md:p-10 rounded-lg max-w-2xl mx-auto">
+                <div class="text-center">
+                    <h3 class="text-2xl font-bold mb-4 text-accent-alt">Renato Tennis Coaching</h3>
+                    <p class="text-lg mb-6">
+                        O ATPV 500 é organizado com excelência pela equipe Renato Tennis Coaching, 
+                        trazendo para você uma experiência de torneio
